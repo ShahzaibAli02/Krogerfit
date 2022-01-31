@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "219462165924",
+    "project_id": "kroger-fit",
+    "storage_bucket": "kroger-fit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219462165924:android:1922e7fc8e84da29eb8d31",
+        "android_client_info": {
+          "package_name": "com.krger.krgerfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219462165924-l5hv7te23b3cf8juh20040qodc8sij0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARnY61roGHHLOUEjRASvPWFyV5md3-sV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219462165924-l5hv7te23b3cf8juh20040qodc8sij0d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
