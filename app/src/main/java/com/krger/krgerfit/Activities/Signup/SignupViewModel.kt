@@ -6,12 +6,13 @@ import android.net.Uri
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.krger.krgerfit.DataBaseOperations
 import com.krger.krgerfit.Interfaces.ImageListener
 import com.krger.krgerfit.Interfaces.ImageUploadListener
-import com.krger.krgerfit.Model.User
+import com.krger.krgerfit.Interfaces.onDataBaseResult
+import com.krger.krgerfit.Model.mResult
 import com.krger.krgerfit.R
 import com.krger.krgerfit.Utils.Util
 import com.krger.krgerfit.databinding.ActivitySignUpBinding
@@ -46,7 +47,7 @@ class SignupViewModel( private  val activity: Activity,private  val binding: Act
     {
 
         val progressDialog=Util.getProgressDialog(activity)
-        Util.uploadImage(muri,object :ImageUploadListener{
+        DataBaseOperations.uploadImage(muri,object :ImageUploadListener{
             override fun onUpload(error: Boolean, Message: String?, url: String?)
             {
                 if (error)
@@ -57,29 +58,32 @@ class SignupViewModel( private  val activity: Activity,private  val binding: Act
                 else
                 {
 
-                    val db = Firebase.firestore.collection("Users")
                     FirebaseAuth.getInstance()
                         .createUserWithEmailAndPassword(binding.editTextEmail.text.toString(),binding.editTextPass.text.toString())
                         .addOnCompleteListener {
 
                             if(it.isSuccessful)
                             {
-                                val user=User(FirebaseAuth.getInstance().currentUser!!.uid,url!!,binding.editTextName.text.toString(),binding.editTextEmail.text.toString(),false)
-                                db.document(user.uid).set(user).addOnCompleteListener {
 
 
-                                    progressDialog!!.dismiss()
-                                    if(it.isSuccessful)
-                                    {
-                                        activity.finish()
-                                        Util.showMessage(activity,"Account Created Successfully");
+                                DataBaseOperations.addUser(FirebaseAuth.getInstance().currentUser!!.uid,url!!,binding.editTextName.text.toString(),binding.editTextEmail.text.toString(),onDataBaseResult =object :
+                                    onDataBaseResult<Task<Void>> {
+                                    override fun onResult(task: mResult<Task<Void>>) {
+
+                                        progressDialog!!.dismiss()
+                                        val result1=task.getResult()
+                                        if(result1!!.isSuccessful)
+                                        {
+                                            activity.finish()
+                                            Util.showMessage(activity,"Account Created Successfully");
+                                        }
+                                        else
+                                        {
+                                            Util.showMessage(activity,"Error : "+result1.exception!!.message);
+                                        }
+
                                     }
-                                    else
-                                    {
-                                        Util.showMessage(activity,"Error : "+it.exception!!.message);
-                                    }
-                                }
-
+                                })
 
                             }
                             else

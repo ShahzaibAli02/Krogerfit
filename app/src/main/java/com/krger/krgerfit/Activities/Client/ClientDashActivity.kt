@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.krger.krgerfit.R
+import com.krger.krgerfit.Activities.Client.BookAppointment.BookAppointmentActivity
 import com.krger.krgerfit.Utils.SharedPref
 import com.krger.krgerfit.databinding.ActivityClientDashBinding
 import com.squareup.picasso.Picasso
@@ -35,7 +35,7 @@ class ClientDashActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         if(view==binding.btnBookAp)
         {
-            startActivity(Intent(this,BookAppointmentActivity::class.java))
+            startActivity(Intent(this, BookAppointmentActivity::class.java))
         }
     }
 

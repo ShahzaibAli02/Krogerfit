@@ -6,11 +6,17 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.krger.krgerfit.Activities.Client.ClientDashActivity
+import com.krger.krgerfit.Constants
+import com.krger.krgerfit.DataBaseOperations
+import com.krger.krgerfit.Interfaces.onDataBaseResult
 import com.krger.krgerfit.Model.User
+import com.krger.krgerfit.Model.mResult
 import com.krger.krgerfit.R
 import com.krger.krgerfit.Utils.SharedPref
 import com.krger.krgerfit.Utils.Util
@@ -56,9 +62,12 @@ class LoginViewModel (private  val activity: Activity, private  val binding: Act
 
                     if(it.isSuccessful)
                     {
-                        val db = Firebase.firestore.collection("Users")
-                        db.document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
 
+                        DataBaseOperations.authenticate(FirebaseAuth.getInstance().currentUser!!.uid,object :onDataBaseResult<Task<DocumentSnapshot>>
+                        {
+                            override fun onResult(result: mResult<Task<DocumentSnapshot>>) {
+
+                                val it=result.getResult()!!
 
                                 progressDialog!!.dismiss()
                                 if(it.isSuccessful)
@@ -85,8 +94,11 @@ class LoginViewModel (private  val activity: Activity, private  val binding: Act
                                     Util.showMessage(activity," Error : "+it.exception!!.message)
                                 }
 
+                            }
+                        })
 
-                        }
+
+
                     }
                     else
                     {

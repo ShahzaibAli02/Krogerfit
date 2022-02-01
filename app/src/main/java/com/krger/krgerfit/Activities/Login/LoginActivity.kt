@@ -8,10 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.krger.krgerfit.Activities.Client.ClientDashActivity
 import com.krger.krgerfit.Activities.Signup.SignUpActivity
-import com.krger.krgerfit.Activities.Signup.SignupViewModel
-import com.krger.krgerfit.Model.Result
-import com.krger.krgerfit.Model.User
-import com.krger.krgerfit.R
 import com.krger.krgerfit.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {

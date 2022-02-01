@@ -8,9 +8,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.util.Patterns
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.FragmentActivity
 import com.github.ybq.android.spinkit.sprite.Sprite
 import com.github.ybq.android.spinkit.style.DoubleBounce
@@ -20,6 +18,7 @@ import com.google.firebase.storage.StorageReference
 import com.krger.krgerfit.Interfaces.ImageListener
 import com.krger.krgerfit.Interfaces.ImageUploadListener
 import com.krger.krgerfit.R
+import com.squareup.picasso.Picasso
 import com.vansuita.pickimage.dialog.PickImageDialog
 import java.util.*
 import java.util.regex.Pattern
@@ -56,39 +55,6 @@ class Util {
         }
 
 
-        fun uploadImage(uri: Uri?, imageUploadListener: ImageUploadListener) {
-            if (uri == null) {
-                imageUploadListener.onUpload(true, "No Image Provided", "")
-                return
-            }
-            val storageRef: StorageReference=FirebaseStorage.getInstance().getReference()
-            val ImagePath=
-                String.format("images/%s.jpg", Calendar.getInstance().timeInMillis.toString())
-            val imageRef: StorageReference=storageRef.child(ImagePath)
-
-            imageRef.putFile(uri).addOnCompleteListener(OnCompleteListener {
-                if (it.isSuccessful)
-                {
-                    imageRef.downloadUrl
-                        .addOnCompleteListener(OnCompleteListener<Uri>
-                        { task ->
-                            if (task.isSuccessful)
-                            {
-                                imageUploadListener.onUpload(false,
-                                    ImagePath,
-                                    task.result.toString()
-                                )
-                            } else {
-                                imageUploadListener.onUpload(true, task.exception!!.message, "")
-                            }
-                        })
-                } else {
-                    imageUploadListener.onUpload(true, it.exception!!.message, "")
-                }
-
-            })
-
-        }
 
 
         fun showMessage(activity: Activity?, message : String?)
@@ -106,10 +72,35 @@ class Util {
             }.show(activity as FragmentActivity?)
         }
 
+        fun getDate(year:Int,month:Int,date:Int): Long {
+            val calendar=Calendar.getInstance()
+            calendar.set(Calendar.YEAR,year)
+            calendar.set(Calendar.DAY_OF_MONTH,date)
+            calendar.set(Calendar.MONTH,month)
+
+            calendar.set(Calendar.HOUR,0)
+            calendar.set(Calendar.MINUTE,0)
+            calendar.set(Calendar.MILLISECOND,0)
+            calendar.set(Calendar.SECOND,0)
+            return calendar.timeInMillis
+        }
+
         fun isValidEmail(text: String?): Boolean
         {
             return  Patterns.EMAIL_ADDRESS.matcher(text).matches()
         }
+
+
+        fun  putValsOnHeader(context: Context,text:String,txtHeaderTitle:TextView,imageView:ImageView)
+        {
+            txtHeaderTitle.text=text
+            val user=SharedPref.getUser(context);
+            if(user!=null && !user.imageLink.isNullOrEmpty())
+            {
+                Picasso.get().load(user.imageLink).resize(40,40).into( imageView)
+            }
+        }
+
     }
 
 }

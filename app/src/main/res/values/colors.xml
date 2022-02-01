@@ -10,4 +10,6 @@
     <color name="back">#EAE7E7</color>
     <color name="icon_back_color">#1A0C54A0</color>
     <color name="transparent">#00000000</color>
+    <color name="not_available">#A7A7A8</color>
+    <color name="selected">#FB8C00</color>
 </resources>

@@ -2,9 +2,8 @@ package com.krger.krgerfit.Model
 
 import javax.annotation.Nullable
 
-public  class Result<T>
+public  class mResult<T>
 {
-
 
     var  isSuccess:Boolean=false
     lateinit var  message:String
