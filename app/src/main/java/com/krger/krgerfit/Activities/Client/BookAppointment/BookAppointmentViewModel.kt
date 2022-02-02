@@ -1,6 +1,15 @@
 package com.krger.krgerfit.Activities.Client.BookAppointment
 
-import android.app.Activity
+import android.annotation.SuppressLint
+import android.app.*
+import android.content.Context
+import android.content.Intent
+import android.media.RingtoneManager
+import android.net.Uri
+import android.os.Build
+import android.view.View
+import android.window.SplashScreen
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,8 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.QuerySnapshot
+import com.krger.krgerfit.Activities.Login.LoginActivity
+import com.krger.krgerfit.Activities.SplashActivity
 import com.krger.krgerfit.Adapters.TimeSlotAdapter
-import com.krger.krgerfit.AppointmentState
+import com.krger.krgerfit.AlarmReceiver
+import com.krger.krgerfit.Constants
+import com.krger.krgerfit.Enums.AppointmentState
 import com.krger.krgerfit.DataBaseOperations
 import com.krger.krgerfit.Interfaces.onDataBaseResult
 import com.krger.krgerfit.Interfaces.onItemSelectedListener
@@ -32,6 +45,11 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
     private   var timeSelected:Int=-1
     private     var dateSelected:String?=null
     private    var dateSelectedLong:Long=-1
+
+    var  mDay=0
+    var  mMonth=0
+    var  mYear=0
+    var  mHour=0
     init
     {
 
@@ -40,7 +58,7 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
         binding.recyclerView.layoutManager=horizontalLayoutManagaer
 
         binding.recyclerView.adapter=TimeSlotAdapter(timeSlots,activity,object :onItemSelectedListener{
-            override fun onItemSelected(position: Int)
+            override fun onItemSelected(view : View,position: Int)
             {
 
                 if(!timeSlots[position].available)
@@ -50,6 +68,7 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
                 else
                 {
                     timeSelected=timeSlots[position].id
+                    mHour=timeSelected
                     binding.txtSelectedTime.text=timeSlots[position].time
                 }
 
@@ -59,14 +78,29 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
 
         binding.calenderView.minDate=Calendar.getInstance().timeInMillis+86400000
         binding.calenderView.setOnDateChangeListener { calendarView, year, month, day ->
+
+            mYear=year
+            mMonth=month
+            mDay=day
             setSelectedDate(year, month, day)
         }
         val calendar=Calendar.getInstance()
         calendar.timeInMillis=Calendar.getInstance().timeInMillis+86400000
-        setSelectedDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH))
+        mYear=calendar.get(Calendar.YEAR)
+        mMonth=calendar.get(Calendar.MONTH)
+        mDay=calendar.get(Calendar.DAY_OF_MONTH)
+        setSelectedDate(mYear,mMonth,mDay)
 
     }
-
+    fun  setvalsonHeader()
+    {
+        Util.putValsOnHeader(activity,
+            "Book Appointment",
+            binding.lytHeader.txtHeaderTitle,
+            binding.lytHeader.imgUser,
+            binding.lytHeader.imgMenu
+        )
+    }
     private fun setSelectedDate(year: Int, month: Int, day: Int) {
         dateSelected="$year/$month/$day"
         dateSelectedLong=Util.getDate(year, month, day)
@@ -142,32 +176,7 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
     {
         
         timeSlots=ArrayList()
-        timeSlots.add(TimeSlot(0,"0:00 AM - 1:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(1,"1:00 AM - 2:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(2,"2:00 AM - 3:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(3,"3:00 AM - 4:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(4,"4:00 AM - 5:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(5,"5:00 AM - 6:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(6,"6:00 AM - 7:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(7,"7:00 AM - 8:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(8,"8:00 AM - 9:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(9,"9:00 AM - 10:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(10,"10:00 AM - 11:00 AM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(11,"11:00 AM - 12:00 PM", R.color.purple_200,0,true))
-
-        timeSlots.add(TimeSlot(12,"12:00 PM - 1:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(13,"1:00 PM - 2:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(14,"2:00 PM - 3:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(15,"3:00 PM - 4:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(16,"4:00 PM - 5:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(17,"5:00 PM - 6:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(18,"6:00 PM - 7:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(19,"7:00 PM - 8:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(20,"8:00 PM - 9:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(21,"9:00 PM - 10:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(22,"10:00 PM - 11:00 PM", R.color.purple_200,0,true))
-        timeSlots.add(TimeSlot(23,"11:00 PM - 12:00 AM", R.color.purple_200,0,true))
-
+        timeSlots.addAll(Util.getTimeSlotsList())
 
     }
 
@@ -191,7 +200,8 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
                         if(appointmentsCount<8)
                         {
                             val user=SharedPref.getUser(activity)!!
-                            val appointment=Appointment("",user.uid,user.userName,timeSelected,dateSelectedLong,AppointmentState.PENDING)
+                            val appointment=Appointment("",user.uid,user.userName,user.imageLink,timeSelected,dateSelectedLong,
+                                AppointmentState.PENDING)
                             DataBaseOperations.addAppointment(appointment,object :onDataBaseResult<Task<Void>>
                             {
                                 override fun onResult(task: mResult<Task<Void>>)
@@ -200,6 +210,7 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
                                     if(task.isSuccess)
                                     {
                                         activity.finish()
+                                        setAlarm()
                                         Util.showMessage(activity,"Appointment Created Successfully")
                                     }
                                     else
@@ -240,6 +251,85 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
             return  false
         }
         return true
+    }
+
+
+    fun setAlarm()
+    {
+        val alarmMgr: AlarmManager?
+        val alarmIntent: PendingIntent
+
+        alarmMgr=activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
+        val intent=Intent(activity, AlarmReceiver::class.java)
+        intent.putExtra(AlarmReceiver.NOTIFICATION_ID, Random().nextInt())
+        intent.putExtra(AlarmReceiver.NOTIFICATION, getNotification())
+        alarmIntent=PendingIntent.getBroadcast(activity, Random().nextInt(), intent, 0)
+        val calendar: Calendar=Calendar.getInstance()
+        calendar.timeInMillis=System.currentTimeMillis()
+        //calendar.set(mYear , mMonth , mDay , mHour , mMinute);
+        calendar.set(Calendar.YEAR, mYear)
+        calendar.set(Calendar.DAY_OF_MONTH, mDay)
+        calendar.set(Calendar.MONTH, mMonth)
+        calendar.set(Calendar.HOUR_OF_DAY, mHour)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+
+        val time=calendar.timeInMillis-Constants.ALARM_BEFORE
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmMgr!!.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP , (calendar.timeInMillis-Constants.ALARM_BEFORE), alarmIntent)
+        };
+        /*alarmMgr!!.setRepeating(AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            5000,
+            alarmIntent
+        )
+
+         */
+    }
+
+
+    private fun getNotification(): Notification
+    {
+        val defaultSound: Uri=RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val intent=Intent(activity, SplashActivity::class.java)
+        val pendingIntent=
+            PendingIntent.getActivity(activity,
+                Random().nextInt(100),
+                intent,
+                Random().nextInt(100)
+            )
+        val notificationManager=activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+        val NOTIFICATION_CHANNEL_ID: String=java.lang.String.valueOf(Random().nextInt(100))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            @SuppressLint("WrongConstant") val notificationChannel=NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                "Notification",
+                NotificationManager.IMPORTANCE_MAX
+            )
+
+            //Configure Notification Channel
+            notificationChannel.enableLights(true)
+            notificationChannel.vibrationPattern=longArrayOf(0, 1000, 500, 1000)
+            notificationChannel.enableVibration(true)
+            notificationManager!!.createNotificationChannel(notificationChannel)
+        }
+        val notificationBuilder: NotificationCompat.Builder=
+            NotificationCompat.Builder(activity, NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_menu)
+                .setAutoCancel(true)
+                .setSound(defaultSound)
+                .setContentTitle(activity.getString(R.string.app_name))
+                .setContentText("Gym Appointment...")
+                .setContentIntent(pendingIntent)
+                .setStyle(NotificationCompat.BigTextStyle()
+                    .bigText("Reminder: Gym Appointment At  : ${binding.txtSelectedDate.text} from ${binding.txtSelectedTime.text}"))
+                .setWhen(System.currentTimeMillis())
+                .setPriority(Notification.PRIORITY_MAX)
+
+        return notificationBuilder.build()
     }
 
 }

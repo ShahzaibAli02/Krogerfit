@@ -20,7 +20,7 @@ import com.krger.krgerfit.databinding.ActivitySignUpBinding
 class SignupViewModel( private  val activity: Activity,private  val binding: ActivitySignUpBinding) : ViewModel()
 {
 
-    lateinit var muri: Uri
+     var muri: Uri?=null
 
 
     fun handleClick(id: Int)

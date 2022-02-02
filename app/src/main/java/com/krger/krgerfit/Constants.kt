@@ -8,6 +8,12 @@ class Constants
 
     companion object{
 
+        //MODIFY TO HOW MANY HOURS BEFORE ACTUAL TIME  YOU WANT NOTIFICATION
+        final val HOURS_BEFORE:Long=4
+
+
+        //DONT MODIFY
+        final  val ALARM_BEFORE: Long=(HOURS_BEFORE*60*60*1000)
         final val FIREBASE_REF_USERS = Firebase.firestore.collection("Users")
         final val FIREBASE_REF_APPOINTMENTS = Firebase.firestore.collection("Appointments")
     }

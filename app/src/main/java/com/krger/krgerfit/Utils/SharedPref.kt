@@ -17,6 +17,24 @@ class SharedPref {
             val sharedPreferences=context.getSharedPreferences(context.packageName, MODE_PRIVATE)
             sharedPreferences.edit().putString("User", Gson().toJson(user)).apply()
         }
+
+        fun saveToken(context:Context, token:String?)
+        {
+
+            val sharedPreferences=context.getSharedPreferences(context.packageName, MODE_PRIVATE)
+
+            sharedPreferences.edit().putString("Token", token).apply()
+        }
+        fun removeToken(context:Context)
+        {
+            val sharedPreferences=context.getSharedPreferences(context.packageName, MODE_PRIVATE)
+            sharedPreferences.edit().putString("Token", "").apply()
+        }
+        fun getoken(context:Context):String?
+        {
+            val sharedPreferences=context.getSharedPreferences(context.packageName, MODE_PRIVATE)
+            return sharedPreferences.getString("Token", "")
+        }
         fun removeUser(context:Context)
         {
             val sharedPreferences=context.getSharedPreferences(context.packageName, MODE_PRIVATE)

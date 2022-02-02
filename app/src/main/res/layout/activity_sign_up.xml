@@ -15,26 +15,6 @@
 
 
 
-        <ImageView
-            android:layout_width="83dp"
-            android:layout_height="57dp"
-            android:src="@drawable/logo"
-            android:layout_marginTop="50dp"
-            android:layout_gravity="center"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign Up"
-            android:gravity="center"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:fontFamily="@font/robot_medium"
-            android:layout_gravity="center"
-            />
-
-
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"

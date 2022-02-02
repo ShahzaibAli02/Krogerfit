@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.krger.krgerfit">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -16,8 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KrögerFit">
         <activity
+            android:name=".Activities.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Admin.AdminDashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.SplashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +34,7 @@
             android:name=".Activities.Client.BookAppointment.BookAppointmentActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.Client.ClientDashActivity"
+            android:name=".Activities.Client.ClientDashBoard.ClientDashActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.Signup.SignUpActivity"
@@ -38,10 +44,10 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
-
+            android:exported="true" />
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.com.vansuita.pickimage.provider"

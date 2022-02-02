@@ -3,17 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1345" />
+        <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/drawable-v24/ic_vector.xml" value="0.1345" />
         <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/drawable/ic_menu.xml" value="0.1695" />
         <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/drawable/ic_message.xml" value="0.1695" />
         <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/drawable/ic_notification.xml" value="0.1695" />
+        <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.22" />
         <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/activity_book_appointment.xml" value="0.33" />
-        <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/activity_client_dash.xml" value="0.18" />
+        <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/activity_client_dash.xml" value="0.25" />
         <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/activity_main.xml" value="0.1703125" />
+        <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/activity_profile.xml" value="0.2" />
         <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/activity_sign_up.xml" value="0.16" />
+        <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/activity_splash.xml" value="0.125" />
+        <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/lyt_appointment_1.xml" value="0.22" />
+        <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/lyt_appointment_2.xml" value="0.25" />
         <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/lyt_forgetpass.xml" value="0.2" />
         <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/lyt_header.xml" value="0.20416666666666666" />
         <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/lyt_timeslot.xml" value="0.22" />
+        <entry key="..\:/AndroidCodes/IbrahimKhan/NEW ORDER 2/Krgerfit2/app/src/main/res/layout/lyt_user.xml" value="0.22" />
       </map>
     </option>
   </component>

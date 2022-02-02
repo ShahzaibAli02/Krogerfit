@@ -1,19 +1,10 @@
 package com.krger.krgerfit.Activities.Client.BookAppointment
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.krger.krgerfit.Activities.Signup.SignupViewModel
-import com.krger.krgerfit.Adapters.TimeSlotAdapter
-import com.krger.krgerfit.Model.TimeSlot
-import com.krger.krgerfit.R
-import com.krger.krgerfit.Utils.SharedPref
 import com.krger.krgerfit.databinding.ActivityBookAppointmentBinding
-import com.squareup.picasso.Picasso
-import java.util.*
 
 class BookAppointmentActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -27,7 +18,12 @@ class BookAppointmentActivity : AppCompatActivity(), View.OnClickListener {
         binding=ActivityBookAppointmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViewModel()
+        initHeader()
         initClickListeners()
+    }
+
+    private fun initHeader() {
+        bookAppointmentViewModel.setvalsonHeader()
     }
 
     private fun initClickListeners()

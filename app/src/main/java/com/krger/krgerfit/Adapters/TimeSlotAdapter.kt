@@ -42,7 +42,7 @@ class TimeSlotAdapter(val listData: MutableList<TimeSlot>, val context: Context,
 
 
         holder.binding.btnTimeSlot.setOnClickListener {
-            onItemSelectedListener.onItemSelected(holder.adapterPosition)
+            onItemSelectedListener.onItemSelected(holder.binding.btnTimeSlot,holder.adapterPosition)
         }
 
     }

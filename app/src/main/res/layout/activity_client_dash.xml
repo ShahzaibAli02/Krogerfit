@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.Client.ClientDashActivity">
+    tools:context=".Activities.Client.ClientDashBoard.ClientDashActivity">
 
     <include
         android:id="@+id/lytHeader"
@@ -31,18 +31,43 @@
         android:layout_height="wrap_content"
         android:text="Upcoming appointments"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="10sp"
+        android:layout_marginEnd="10sp"
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:fontFamily="@font/robot_medium"
         android:layout_gravity="center"
         />
+
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:SpinKit_Style="Wave"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/purple_700"
+        />
+    <TextView
+        android:id="@+id/txtErrorMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Upcoming Appointments Found"
+        android:layout_marginStart="10sp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/poppins"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"

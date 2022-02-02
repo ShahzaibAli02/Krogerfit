@@ -9,10 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.krger.krgerfit.Activities.Client.ClientDashActivity
-import com.krger.krgerfit.Constants
+import com.krger.krgerfit.Activities.Admin.AdminDashboardActivity
+import com.krger.krgerfit.Activities.Client.ClientDashBoard.ClientDashActivity
 import com.krger.krgerfit.DataBaseOperations
 import com.krger.krgerfit.Interfaces.onDataBaseResult
 import com.krger.krgerfit.Model.User
@@ -57,8 +55,9 @@ class LoginViewModel (private  val activity: Activity, private  val binding: Act
 
             val progressDialog=Util.getProgressDialog(activity)
             FirebaseAuth.getInstance()
-                .signInWithEmailAndPassword(binding.editTextEmail.text.toString(),binding.editTextPass.text.toString())
+                .signInWithEmailAndPassword(binding.editTextEmail.text.toString().trim(),binding.editTextPass.text.toString())
                 .addOnCompleteListener {
+
 
                     if(it.isSuccessful)
                     {
@@ -74,20 +73,28 @@ class LoginViewModel (private  val activity: Activity, private  val binding: Act
                                 {
                                     val result=it.result
                                     val user=result!!.toObject(User::class.java)
-
+                                    if(user==null)
+                                    {
+                                        Util.showMessage(activity,"Your Account Removed By Admin")
+                                        return
+                                    }
                                     SharedPref.saveUser(activity,user!!)
                                     Util.showMessage(activity,"Welcome : "+ user.userName)
 
-                                    if(user.isAdmin)
+                                    activity.finish()
+                                    if(user.admin)
                                     {
-                                        //TODO
+                                        activity.startActivity(Intent( activity,
+                                            AdminDashboardActivity::class.java))
                                     }
                                     else
                                     {
-                                        activity.finish()
-                                        activity.startActivity(Intent( activity,ClientDashActivity::class.java))
+                                        activity.startActivity(Intent( activity,
+                                            ClientDashActivity::class.java))
                                     }
 
+
+                                    SharedPref.saveToken(activity,binding.editTextPass.text.toString())
                                 }
                                 else
                                 {

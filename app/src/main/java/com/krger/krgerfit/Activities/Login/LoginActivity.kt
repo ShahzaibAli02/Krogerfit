@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.krger.krgerfit.Activities.Client.ClientDashActivity
+import com.krger.krgerfit.Activities.Admin.AdminDashboardActivity
+import com.krger.krgerfit.Activities.Client.ClientDashBoard.ClientDashActivity
 import com.krger.krgerfit.Activities.Signup.SignUpActivity
+import com.krger.krgerfit.Utils.SharedPref
 import com.krger.krgerfit.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -28,11 +30,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        if(FirebaseAuth.getInstance().currentUser!=null)
-        {
-            finish()
-            startActivity(Intent(this,ClientDashActivity::class.java))
-        }
     }
 
     private fun setClickListeners() {
