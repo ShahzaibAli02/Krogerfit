@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Kröger fit"
 include ':app'
+include ':mylibrary'

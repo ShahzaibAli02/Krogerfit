@@ -8,6 +8,9 @@ class Constants
 
     companion object{
 
+        val EXTRA_KEY_DATE="EXTRA_KEY_DATE"
+        val EXTRA_KEY_TIME="EXTRA_KEY_TIME"
+
         //MODIFY TO HOW MANY HOURS BEFORE ACTUAL TIME  YOU WANT NOTIFICATION
         final val HOURS_BEFORE:Long=4
 

@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KrögerFit">
         <activity
+            android:name=".Activities.Client.AppointmentSuccessActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ProfileActivity"
             android:exported="false" />
         <activity
@@ -45,9 +48,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.com.vansuita.pickimage.provider"

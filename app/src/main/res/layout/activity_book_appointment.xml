@@ -70,8 +70,8 @@
 
 
             <androidx.cardview.widget.CardView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="10sp"
+                android:layout_height="10sp"
                 android:layout_gravity="center"
                 app:cardBackgroundColor="@color/purple_200"
                 app:cardCornerRadius="20dp" />
@@ -86,11 +86,11 @@
 
                 android:text="Available"
                 android:textColor="@color/purple_200"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
 
             <androidx.cardview.widget.CardView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="10sp"
+                android:layout_height="10sp"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 app:cardBackgroundColor="@color/not_available"
@@ -105,11 +105,11 @@
                 android:fontFamily="@font/robot_medium"
                 android:text="Not Available"
                 android:textColor="@color/not_available"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
 
             <androidx.cardview.widget.CardView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="10sp"
+                android:layout_height="10sp"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 app:cardBackgroundColor="@color/selected"
@@ -123,7 +123,7 @@
                 android:fontFamily="@font/robot_medium"
                 android:text="Selected"
                 android:textColor="@color/selected"
-                android:textSize="18dp" />
+                android:textSize="15dp" />
 
         </LinearLayout>
 

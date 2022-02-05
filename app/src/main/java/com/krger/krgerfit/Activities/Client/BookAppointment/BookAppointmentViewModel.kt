@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.QuerySnapshot
+import com.krger.krgerfit.Activities.Client.AppointmentSuccessActivity
 import com.krger.krgerfit.Activities.Login.LoginActivity
 import com.krger.krgerfit.Activities.SplashActivity
 import com.krger.krgerfit.Adapters.TimeSlotAdapter
@@ -46,6 +47,7 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
     private     var dateSelected:String?=null
     private    var dateSelectedLong:Long=-1
 
+    val timeSlotAdapter:TimeSlotAdapter
     var  mDay=0
     var  mMonth=0
     var  mYear=0
@@ -57,7 +59,7 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
         horizontalLayoutManagaer=LinearLayoutManager(activity, RecyclerView.HORIZONTAL,false)
         binding.recyclerView.layoutManager=horizontalLayoutManagaer
 
-        binding.recyclerView.adapter=TimeSlotAdapter(timeSlots,activity,object :onItemSelectedListener{
+        timeSlotAdapter=TimeSlotAdapter(timeSlots,activity,this,object :onItemSelectedListener{
             override fun onItemSelected(view : View,position: Int)
             {
 
@@ -76,7 +78,8 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
 
         })
 
-        binding.calenderView.minDate=Calendar.getInstance().timeInMillis+86400000
+        binding.recyclerView.adapter=timeSlotAdapter
+        binding.calenderView.minDate=Calendar.getInstance().timeInMillis
         binding.calenderView.setOnDateChangeListener { calendarView, year, month, day ->
 
             mYear=year
@@ -85,7 +88,7 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
             setSelectedDate(year, month, day)
         }
         val calendar=Calendar.getInstance()
-        calendar.timeInMillis=Calendar.getInstance().timeInMillis+86400000
+        calendar.timeInMillis=Calendar.getInstance().timeInMillis
         mYear=calendar.get(Calendar.YEAR)
         mMonth=calendar.get(Calendar.MONTH)
         mDay=calendar.get(Calendar.DAY_OF_MONTH)
@@ -111,24 +114,32 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
 
     private fun updateAppointmentsList()
     {
-        clearCount()
+
+        timeSelected=-1;
+        binding.txtSelectedTime.text="NOT SELECTED"
         val progressDialog=Util.getProgressDialog(activity)
         DataBaseOperations.getAppointmentsAtDate(dateSelectedLong,object :onDataBaseResult<Task<QuerySnapshot>>
         {
             override fun onResult(task: mResult<Task<QuerySnapshot>>)
             {
+                clearCount()
                 progressDialog!!.dismiss()
                 if(task.getResult()!!.isSuccessful)
                 {
                     val snapshot=task.getResult()!!.result
                     for(document in snapshot!!.documents)
                     {
-                        val appointment=document.toObject(Appointment::class.java)
-                        timeSlots[appointment!!.time].count++;
 
+                        val appointment=document.toObject(Appointment::class.java)
+                        if(appointment!!.uid==FirebaseAuth.getInstance().currentUser!!.uid)
+                        {
+                            timeSlots[appointment!!.time].available=false
+                        }
+                        timeSlots[appointment!!.time].count++
 
                     }
-                    binding.recyclerView.adapter!!.notifyDataSetChanged()
+                    timeSlotAdapter.update()
+
 
 
                 }
@@ -209,9 +220,14 @@ class BookAppointmentViewModel (private  val activity: Activity, private  val bi
                                     progressDialog?.dismiss()
                                     if(task.isSuccess)
                                     {
-                                        activity.finish()
+
                                         setAlarm()
-                                        Util.showMessage(activity,"Appointment Created Successfully")
+                                        val intent=Intent(activity,AppointmentSuccessActivity::class.java)
+                                        intent.putExtra(Constants.EXTRA_KEY_DATE,dateSelectedLong)
+                                        intent.putExtra(Constants.EXTRA_KEY_TIME,timeSelected)
+                                        activity.startActivity(intent)
+                                        activity.finish()
+                                        //Util.showMessage(activity,"Appointment Created Successfully")
                                     }
                                     else
                                     {

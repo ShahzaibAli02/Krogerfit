@@ -163,6 +163,20 @@ class DataBaseOperations
             }
 
         }
+        fun getAppointmentsAtDateTime(date: Long,time :Int,onDbResult: onDataBaseResult<Task<QuerySnapshot>>)
+        {
+            val db = Constants.FIREBASE_REF_APPOINTMENTS
+            val calendar=Calendar.getInstance()
+            val currentDate=Util.getDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH))
+            val whereEqualTo=db.whereEqualTo("date", date).whereEqualTo("time",time)
+            whereEqualTo.get().addOnCompleteListener {
+                val mResult=mResult<Task<QuerySnapshot>>()
+                mResult.setResult(it)
+                mResult.isSuccess=it.isSuccessful
+                onDbResult.onResult(mResult)
+            }
+
+        }
         fun updateAppointmentState(id: String,appointmentState: AppointmentState,onDbResult: onDataBaseResult<Task<Void>>)
         {
             val db = Constants.FIREBASE_REF_APPOINTMENTS
